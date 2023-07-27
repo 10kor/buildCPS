@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="pcXML">
+ 	<resultMap id="pcRM" type="pcD" >
+		<result property="id" column="id" />
+		<result property="host_name" column="host_name" />
+		<result property="registration" column="registration" />
+		<result property="status" column="status" />
+	</resultMap>
+		
+ 	<!-- 해당 id의 등록된 pc 수 확인 -->
+   	<select id="pcreg" parameterType="String" resultType="int">
+ 		select count(*) from pc where id=#{client} and status=0
+ 	</select>
+ 	
+ 	<!-- id와 host로 등록된 pc 수 확인 -->
+  	<select id="pcisit" parameterType="pcD" resultType="int">
+ 		select count(*) from pc where id=#{id} and host_name=#{host_name}
+ 	</select>
+ 	
+ 	<!-- id와 host로 등록된 pc의 status 확인 -->
+ 	<select id="pccancel" parameterType="pcD" resultType="int">
+ 		select status from pc where id=#{id} and host_name=#{host_name}
+ 	</select>
+ 	
+ 	<!-- pc등록 -->
+ 	<insert id="pcregister" parameterType="pcD">
+ 		insert into pc values (#{id},#{host_name},sysdate,0)
+ 	</insert>
+ 	
+	<!-- pcs 목록가져오기 -->
+	<select id="pcs" parameterType="String" resultMap="pcRM">
+    	select * from pc where id=#{id} ORDER BY registration ASC
+    </select>
+    
+    <!-- 등록pc 취소하기 -->
+    <update id="pcCancel" parameterType="pcD">
+    	update pc SET status=1 WHERE id=#{id} AND host_name=#{host_name}
+    </update>
+    
+	<!-- pcs 목록 전체 가져오기 -->
+	<select id="getPcs" resultType="pcD">
+    	select * from pc
+    </select>
+    
+ </mapper>

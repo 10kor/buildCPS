@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.buildCps.cps.dto.MemberDto" alias="MemberD"></typeAlias>
+		<typeAlias type="com.buildCps.cps.dto.LogDto" alias="LogD"></typeAlias>
+		<typeAlias type="com.buildCps.cps.dto.BfileDto" alias="BfileD"></typeAlias>
+		<typeAlias type="com.buildCps.cps.dto.PayDto" alias="PayD"></typeAlias>
+		<typeAlias type="com.buildCps.cps.dto.PcDto" alias="PcD"></typeAlias>
+		<typeAlias type="com.buildCps.cps.dto.QnaDto" alias="QnaD"></typeAlias>
+		<typeAlias type="com.buildCps.cps.dto.ReplyDto" alias="ReplyD"></typeAlias>
+		<typeAlias type="com.buildCps.cps.dto.NoticeDto" alias="NoticeD"></typeAlias>
+	</typeAliases>
+</configuration>

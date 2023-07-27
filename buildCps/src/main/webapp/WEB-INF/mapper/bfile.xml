@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="bfileXML">
+	
+	<!-- 파일 수 가져오기 -->
+	<select id="getBfileTotal" resultType="int">
+		select count(*) from bfile
+	</select>
+	
+	<!-- 파일 리스트 -->
+	<select id="fileList" parameterType="BfileD" resultType="BfileD">
+ 		select * from (select a.*, rowNum rn from(
+	    SELECT bno, id, bname, bdate, bsize FROM bfile order by bno desc) a)
+		where rn between #{startRow} and #{endRow}
+	</select>
+		
+	<!-- 파일 업로드 -->
+	<insert id="fileUpload" parameterType="java.util.Map">
+		INSERT INTO bfile VALUES (bfile_seq.nextval,null,#{bname},#{bfile},sysdate,#{bsize})   
+	</insert>
+	
+	<!-- 파일 아이디 등록 -->
+	<update id="fileId" parameterType="java.util.Map">
+		UPDATE bfile SET id=#{id} WHERE bno=#{bno}
+	</update>
+	
+	<!-- 파일 다운로드 -->
+	<select id="fileDownload" resultType="BfileD">
+		SELECT bfile, bname FROM bfile WHERE bno=#{bno}
+	</select>
+	
+	<!-- 파일 삭제 -->
+	<delete id="fileDelete" parameterType="int">
+	    DELETE FROM bfile WHERE bno=#{bno}
+	</delete>
+		
+</mapper>

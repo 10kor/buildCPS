@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="logXML">
+ 	
+ 	<!-- 로그기록 남기기 -->
+ 	<insert id="logInsert" parameterType="LogD">
+ 		insert into log values(#{id},#{user_name},#{host_name},#{ip_address},sysdate,#{status})
+ 	</insert>
+ 	
+	<!-- 개별 log 데이터 -->
+	<select id="getLogs" parameterType="String" resultType="LogD">
+    	select * from log where id=#{id} ORDER BY registration DESC
+    </select>
+    
+   <!-- 전체 log 데이터 -->
+	<select id="logAll" parameterType="LogD" resultType="LogD">
+ 		select * from (select a.*, rowNum rn from(
+ 			select * from log order by registration DESC) a )
+			where rn between #{startRow} and #{endRow}
+    </select>
+    
+    <!-- 전체 log 데이터 수 -->
+	<select id="getLogTotal" parameterType="LogD" resultType="int">
+		select count(*) from log
+	</select>
+	
+ </mapper>

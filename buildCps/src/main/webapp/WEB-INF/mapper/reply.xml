@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="replyXML">
+	
+ 	<!-- 댓글작성 -->
+ 	<insert id="ReplyAdd" parameterType="ReplyD">
+ 		insert into reply(rno, qno, id, rcontent, rdate) values(reply_seq.nextval,#{qno},#{id},#{rcontent},sysdate)
+ 	</insert>
+	
+ 	<!-- 댓글 가져오기 -->
+ 	<select id="ReplyList" parameterType="ReplyD" resultType="ReplyD">
+		select * from reply where qno=#{qno} order by rdate desc
+	</select>
+	
+	<!-- 댓글 수 세기 -->
+	<select id="getCountReply" parameterType="int" resultType="int">
+		select count(*) from reply where qno=#{qno} and rdeldate is null
+	</select>
+	
+	<!-- 댓글 수정 -->
+	<update id="ReplyUpdate" parameterType="ReplyD">
+		update reply set rcontent=#{rcontent},rupdate=sysdate where rno=#{rno}
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<update id="ReplyDelete" parameterType="int">
+		update reply set rdeldate=sysdate where rno=#{rno}
+	</update>
+	
+	<!-- 작성자 가져오기 -->
+	<select id="getReplyId" parameterType="int" resultType="String">
+ 		select id from reply where rno=#{rno}
+	</select>
+	
+ </mapper>

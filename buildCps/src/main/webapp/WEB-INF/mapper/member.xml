@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="memberXML">
+ 
+	<!-- 아이디 중복검사 -->
+	<select id="idcheck" parameterType="String" resultType="int">
+    	select count(*) from member where id=#{id}
+    </select>
+    
+    <!-- 회원 가입 -->
+    <insert id="memberSign" parameterType="MemberD"> 
+    	insert into member values (#{id},#{passwd},#{company},#{name},#{mail},#{phone},sysdate,null)
+    </insert>
+    
+	<!-- 로그인 -->
+	<select id="memberLogin" parameterType="String" resultType="MemberD">
+    	select * from member where id=#{id} and drop_date is null
+    </select>
+    
+    <!-- 비밀번호 확인 -->
+	<select id="passwdCheck" parameterType="String" resultType="String">
+    	select passwd from member where id=#{id}
+    </select>
+    
+    <!-- 회원가입정보 변경 -->
+	<update id="memberUpdate" parameterType="MemberD">
+		update member set company=#{company},name=#{name},mail=#{mail},phone=#{phone} where id=#{id}
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+    <update id="memberDrop" parameterType="MemberD">
+    	update member set drop_date=sysdate where id=#{id}
+    </update> 
+    
+   <!-- members 목록 전체 가져오기 -->
+	<select id="getMembers" parameterType="MemberD" resultType="MemberD">
+ 		select * from (select a.*, rowNum rn from(
+ 			select * from member order by join_date DESC) a )
+			where rn between #{startRow} and #{endRow}
+    </select>
+    
+    <!-- 전체 member 데이터 수 -->
+	<select id="getMemberTotal" parameterType="MemberD" resultType="int">
+		select count(*) from member
+	</select>
+    
+    
+    
+ </mapper>

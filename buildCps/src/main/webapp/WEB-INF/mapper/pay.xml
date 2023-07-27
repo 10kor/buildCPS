@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="payXML">
+ 	
+ 	<!-- pay 데이터 List로 가져오기 -->
+ 	<select id="paydata" parameterType="String" resultType="payD">
+ 		select * from pay where id=#{client}
+ 	</select>
+ 	
+	<!-- pays -->
+	<select id="pays" parameterType="String" resultType="payD">
+    	select * from pay where id=#{id}
+    </select>
+    
+	<!-- pays 목록 전체 가져오기 -->
+	<select id="getPays" resultType="payD">
+    	select * from pay
+    </select>	
+    
+    <!-- 관리자 : 결제정보 등록 -->
+ 	<insert id="payInsert" parameterType="payD">
+ 		insert into pay values (#{id},#{pc_amount},#{startdate},#{enddate})
+ 	</insert>
+ 	
+    <!-- 관리자 : 결제정보 수정 -->
+	<update id="payUpdate" parameterType="payD">
+		update pay SET pc_amount = #{pc_amount}, startdate = #{startdate}, enddate = #{enddate} WHERE id = #{id}
+	</update>
+	
+    <!-- 관리자 : 결제정보 삭제 -->
+	<delete id="payDelete" parameterType="String">
+		delete from pay where id=#{id}
+	</delete>
+
+ </mapper>

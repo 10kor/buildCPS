@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="qnaXML">
+ 
+	<resultMap type="HashMap" id="qnaMap">
+		<result property="qno" column="qno" />
+		<result property="id" column="id"  />
+		<result property="qsubject" column="qsubject" />
+		<result property="qcontent" column="qcontent" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="qpasswd" column="qpasswd"  />
+		<result property="qcount" column="qcount"  />
+		<result property="qdate" column="qdate"  />
+		<result property="qupdate" column="qupdate"  />
+		<result property="qdeldate" column="qdeldate"  />
+	</resultMap>
+	
+ 	<select id="qnaList" parameterType="QnaD" resultType="QnaD">
+ 		select * from (select a.*, rowNum rn from(
+ 			select * from qna order by qno desc) a )
+			where rn between #{startRow} and #{endRow}
+	</select>
+	
+	<select id="getQnaTotal" parameterType="QnaD" resultType="int">
+		select count(*) from qna
+	</select>
+
+	<insert id="qnaAdd" parameterType="QnaD">
+		insert into qna values(qna_seq.nextval,#{id},#{qsubject},#{qcontent,jdbcType=CLOB},#{qpasswd},0,sysdate,null,null)
+	</insert>
+	
+	<update id="qnaCountPlus" parameterType="QnaD">
+		update qna set qcount=qcount+1 where qno=#{qno}
+	</update>
+	
+	<select id="qnaView" parameterType="int" resultType="QnaD"> 
+ 		select * from qna where qno=#{qno}
+	</select>
+	
+	<select id="qnaUpdateSelect" parameterType="QnaD" resultType="QnaD">
+		select * from qna where qno=#{qno}
+	</select>
+	
+	<update id="qnaUpdate" parameterType="QnaD">
+		update qna set qsubject=#{qsubject},qcontent=#{qcontent},qupdate=sysdate where qno=#{qno}
+	</update>
+	
+	<update id="qnaDelete" parameterType="int">
+		update qna set qdeldate=sysdate where qno=#{qno}
+	</update>
+	
+	<select id="qnaPasswdCk" parameterType="int" resultType="String">
+ 		select qpasswd from qna where qno=#{qno}
+	</select>
+	
+ </mapper>

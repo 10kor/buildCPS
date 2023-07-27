@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="noticeXML">
+ 
+	<resultMap type="HashMap" id="noticeMap">
+		<result property="nno" column="nno"  />
+		<result property="ncontent" column="ncontent" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="ndate" column="ndate"  />
+		<result property="ncount" column="ncount"  />
+	</resultMap>
+ 	
+	<select id="getNotice" resultType="noticeD">
+		select * from notice where nno=99
+	</select>
+	
+	<update id="noticeUpdate" parameterType="noticeD">
+		update notice set ncontent=#{ncontent},ndate=sysdate where nno=99
+	</update>
+	
+	<update id="noticeCountPlus" parameterType="noticeD">
+		update notice set ncount=ncount+1 where nno=99
+	</update>
+	
+</mapper>
